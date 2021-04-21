@@ -1,5 +1,9 @@
+#define USE_GTKBUILDER 1
+
 #include <gtk/gtk.h>
+#ifndef USE_GTKBUILDER
 #include <glade/glade.h>
+#endif
 
 void on_back_clicked (GtkToolButton*);
 void on_forward_clicked (GtkToolButton*);
@@ -16,14 +20,25 @@ int main (int argc,
           char *argv[])
 {
   GtkWidget *window;
+#ifdef USE_GTKBUILDER
+  GtkBuilder * builder;
+  GError * error = NULL;
+#else
   GladeXML *xml;
+#endif
 
   gtk_init (&argc, &argv);
 
+#ifdef USE_GTKBUILDER
+  builder = gtk_builder_new ();
+  gtk_builder_add_from_file (builder, "browser.ui", &error);
+  window = GTK_WIDGET (gtk_builder_get_object (builder, "window"));
+  gtk_builder_connect_signals (builder, NULL);
+#else
   xml = glade_xml_new ("browser.glade", NULL, NULL);
   window = glade_xml_get_widget (xml, "window");
-  
   glade_xml_signal_autoconnect (xml);
+#endif
 
   gtk_widget_show_all (window);
   gtk_main ();
