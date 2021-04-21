@@ -17,7 +17,7 @@ int main (int argc,
   write = g_io_channel_new_file (filename, "w", &error);
   handle_error (error);
   g_io_channel_write_chars (write, "Hello World!", -1, &bytes, NULL);
-  g_io_channel_close (write);
+  g_io_channel_shutdown (write, TRUE, NULL);
   
   if (!g_file_test (filename, G_FILE_TEST_EXISTS))
     g_error ("Error: File does not exist!\n");
@@ -28,7 +28,7 @@ int main (int argc,
   g_io_channel_read_to_end (read, &content, &bytes, NULL);
   g_print ("%s\n", content);
   
-  g_io_channel_close (read);
+  g_io_channel_shutdown (read, TRUE, NULL);
   g_free (content);
   g_free (filename);
 
