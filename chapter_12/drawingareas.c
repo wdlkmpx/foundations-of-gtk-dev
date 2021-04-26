@@ -1,6 +1,8 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#define USE_CAIRO 1
+
 static gboolean button_pressed (GtkWidget*, GdkEventButton*, GPtrArray*);
 static gboolean motion_notify (GtkWidget*, GdkEventMotion*, GPtrArray*);
 static gboolean key_pressed (GtkWidget*, GdkEventKey*, GPtrArray*);
@@ -25,7 +27,8 @@ int main (int argc,
    * drawing area widget. */
   parray = g_ptr_array_sized_new (5000);
   area = gtk_drawing_area_new ();
-  GTK_WIDGET_SET_FLAGS (area, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (area, TRUE);
+
   gtk_widget_add_events (area, GDK_BUTTON_PRESS_MASK | 
                                GDK_BUTTON_MOTION_MASK | 
                                GDK_KEY_PRESS_MASK);
@@ -58,7 +61,11 @@ expose_event (GtkWidget *area,
               GPtrArray *parray)
 {
   guint i, x, y;
+#if USE_CAIRO
+  cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (area));
+#else
   GdkPoint points[5];
+#endif
   
   /* Loop through the coordinates, redrawing them onto the drawing area. */
   for (i = 0; i < parray->len; i = i + 2)
@@ -66,16 +73,25 @@ expose_event (GtkWidget *area,
     x = GPOINTER_TO_INT (parray->pdata[i]);
     y = GPOINTER_TO_INT (parray->pdata[i+1]);
     
+#if USE_CAIRO
+    cairo_rectangle (cr, x-1, y-1, 2, 2);
+    cairo_fill (cr);
+#else
     points[0].x = x;   points[0].y = y;
     points[1].x = x+1; points[1].y = y;
     points[2].x = x-1; points[2].y = y;
     points[3].x = x;   points[3].y = y+1;
     points[4].x = x;   points[4].y = y-1;
-    
     gdk_draw_points (area->window,
                      area->style->fg_gc[GTK_WIDGET_STATE (area)],
-                     points, 5);
+                     points,
+                     5);
+#endif
   }
+
+#if USE_CAIRO
+  cairo_destroy (cr);
+#endif
   
   return TRUE;
 }
@@ -88,11 +104,18 @@ button_pressed (GtkWidget *area,
                 GPtrArray *parray)
 {
   gint x = event->x, y = event->y;
-  GdkPoint points[5] = { {x,y}, {x+1,y}, {x-1,y}, {x,y+1}, {x,y-1} };
 
+#if USE_CAIRO
+  cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (area));
+  cairo_rectangle (cr, x-1, y-1, 2, 2);
+  cairo_fill (cr);
+  cairo_destroy (cr);
+#else
+  GdkPoint points[5] = { {x,y}, {x+1,y}, {x-1,y}, {x,y+1}, {x,y-1} };
   gdk_draw_points (area->window,
                    area->style->fg_gc[GTK_WIDGET_STATE (area)],
                    points, 5);
+#endif
 
   g_ptr_array_add (parray, GINT_TO_POINTER (x));
   g_ptr_array_add (parray, GINT_TO_POINTER (y));
@@ -108,11 +131,18 @@ motion_notify (GtkWidget *area,
                GPtrArray *parray)
 {
   gint x = event->x, y = event->y;
-  GdkPoint points[5] = { {x,y}, {x+1,y}, {x-1,y}, {x,y+1}, {x,y-1} };
 
+#if USE_CAIRO
+  cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (area));
+  cairo_rectangle (cr, x-1, y-1, 2, 2);
+  cairo_fill (cr);
+  cairo_destroy (cr);
+#else
+  GdkPoint points[5] = { {x,y}, {x+1,y}, {x-1,y}, {x,y+1}, {x,y-1} };
   gdk_draw_points (area->window,
                    area->style->fg_gc[GTK_WIDGET_STATE (area)],
                    points, 5);
+#endif
 
   g_ptr_array_add (parray, GINT_TO_POINTER (x));
   g_ptr_array_add (parray, GINT_TO_POINTER (y));
