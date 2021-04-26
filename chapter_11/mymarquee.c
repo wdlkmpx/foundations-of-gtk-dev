@@ -179,7 +179,7 @@ my_marquee_realize (GtkWidget *widget)
   g_return_if_fail (IS_MY_MARQUEE (widget));
 
   /* Set the GTK_REALIZED flag so it is marked as realized. */
-  GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
+  gtk_widget_set_realized (widget, TRUE);
   marquee = MY_MARQUEE (widget);
 
   /* Create a new GtkWindowAttr object that will hold info about the GdkWindow. */
@@ -235,7 +235,7 @@ my_marquee_size_allocate (GtkWidget *widget,
   widget->allocation = *allocation;
   marquee = MY_MARQUEE (widget);
 
-  if (GTK_WIDGET_REALIZED (widget))
+  if (gtk_widget_get_realized (widget))
   {
     gdk_window_move_resize (widget->window, allocation->x, allocation->y, 
                             allocation->width, allocation->height);
@@ -252,8 +252,7 @@ my_marquee_expose (GtkWidget *widget,
   MyMarquee *marquee;
   MyMarqueePrivate *priv;
   PangoLayout *layout;
-  PangoContext *context;
-  gint width, height;
+  gint width, height, x, y;
 
   g_return_val_if_fail (widget != NULL || event != NULL, FALSE);
   g_return_val_if_fail (IS_MY_MARQUEE (widget), FALSE);
@@ -264,10 +263,10 @@ my_marquee_expose (GtkWidget *widget,
   marquee = MY_MARQUEE (widget);
   priv = MY_MARQUEE_GET_PRIVATE (marquee);
   fd = widget->style->font_desc;
-  context = gdk_pango_context_get ();
-  layout = pango_layout_new (context);
-  g_object_unref (context);
-  
+
+  cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (widget));
+  layout = pango_cairo_create_layout (cr);
+
   /* Create a new PangoLayout out of the message with the given font. */
   pango_layout_set_font_description (layout, fd);
   pango_layout_set_text (layout, priv->message, -1);
@@ -278,12 +277,12 @@ my_marquee_expose (GtkWidget *widget,
                          widget->allocation.height);
 
   /* Draw the PangoLayout on the widget, which is the message text. */
-  gdk_draw_layout (widget->window,
-                   widget->style->fg_gc[widget->state],
-                   priv->current_x, 
-                   (widget->allocation.height - (height / PANGO_SCALE)) / 2,
-                   layout);
-  
+  x = priv->current_x;
+  y = (widget->allocation.height - (height / PANGO_SCALE)) / 2;
+  cairo_move_to (cr, x, y);
+  pango_cairo_show_layout (cr, layout);
+  g_object_unref (layout);
+  cairo_destroy (cr);
   return TRUE;
 }
 
@@ -295,18 +294,17 @@ my_marquee_slide (MyMarquee *marquee)
   GtkWidget *widget;
   MyMarqueePrivate *priv;
   PangoLayout *layout;
-  PangoContext *context;
-  gint width, height;
-  
+  gint width, height, x, y;
+
   g_return_if_fail (marquee != NULL);
   g_return_if_fail (IS_MY_MARQUEE (marquee));
   
   widget = GTK_WIDGET (marquee);
   priv = MY_MARQUEE_GET_PRIVATE (marquee);
   fd = widget->style->font_desc;
-  context = gdk_pango_context_get ();
-  layout = pango_layout_new (context);
-  g_object_unref (context);
+
+  cairo_t * cr = gdk_cairo_create (gtk_widget_get_window (widget));
+  layout = pango_cairo_create_layout (cr);
   
   /* Create a new PangoLayout out of the message with the given font. */
   pango_layout_set_font_description (layout, fd);
@@ -323,11 +321,12 @@ my_marquee_slide (MyMarquee *marquee)
     priv->current_x = widget->allocation.width;
   
   /* Draw the PangoLayout on the widget, which is the message text. */
-  gdk_draw_layout (widget->window,
-                   widget->style->fg_gc[widget->state],
-                   priv->current_x, 
-                   (widget->allocation.height - (height / PANGO_SCALE)) / 2,
-                   layout);
+  x = priv->current_x;
+  y = (widget->allocation.height - (height / PANGO_SCALE)) / 2;
+  cairo_move_to (cr, x, y);
+  pango_cairo_show_layout (cr, layout);
+  g_object_unref (layout);
+  cairo_destroy (cr);
 }
 
 /* Set the message that is displayed by the widget. */
