@@ -1,7 +1,14 @@
 EXES_NOGLADE = exercise2-1 exercise2-2 exercise3-1 exercise3-2 exercise4-1 exercise4-2 exercise4-2 exercise5-1 exercise6-1 exercise6-2 exercise7-1 exercise8-1 exercise9-1 exercise9-2
 EXES_GLADE = exercise10-1 exercise10-2 exercise12-1
 CC = cc
-CFLAGS = -Wall -export-dynamic -g `pkg-config --cflags --libs gtk+-2.0 libglade-2.0`
+
+CFLAGS_S = -Wall -g -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
+#CFLAGS_D = -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_DEPRECATED -DGTK_DISABLE_SINGLE_INCLUDES
+CFLAGS_D = -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_SINGLE_INCLUDES
+CFLAGS_2 = $(CFLAGS_S) `pkg-config --cflags --libs gtk+-2.0 libglade-2.0` $(CFLAGS_D)
+CFLAGS_3 = $(CFLAGS_S) `pkg-config --cflags --libs gtk+-3.0`
+
+CFLAGS = -export-dynamic -lm $(CFLAGS_2)
 
 all: 
 	$(MAKE) $(EXES_NOGLADE) $(EXES_GLADE) exercise11-1

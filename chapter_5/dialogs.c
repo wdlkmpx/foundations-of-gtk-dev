@@ -34,15 +34,14 @@ static void
 button_clicked (GtkButton *button,
                 GtkWindow *parent)
 {
-  GtkWidget *dialog, *label, *image, *hbox;
+  GtkWidget *dialog, * main_vbox, *label, *image, *hbox;
   
   /* Create a new dialog with one OK button. */
   dialog = gtk_dialog_new_with_buttons ("Information", parent,
                                         GTK_DIALOG_MODAL,
                                         GTK_STOCK_OK, GTK_RESPONSE_OK,
                                         NULL);
-
-  gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
   label = gtk_label_new ("The button was clicked!");
   image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_INFO, 
@@ -50,11 +49,11 @@ button_clicked (GtkButton *button,
 
   hbox = gtk_hbox_new (FALSE, 5);
   gtk_container_set_border_width (GTK_CONTAINER (hbox), 10);
-  gtk_box_pack_start_defaults (GTK_BOX (hbox), image);
-  gtk_box_pack_start_defaults (GTK_BOX (hbox), label);
+  gtk_box_pack_start (GTK_BOX (hbox), image, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
 
-  /* Pack the dialog content into the dialog's GtkVBox. */
-  gtk_box_pack_start_defaults (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox);
+  /* Pack the dialog content into the dialog's GtkBox. */
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, TRUE, TRUE, 0);
   gtk_widget_show_all (dialog);
 
   /* Create the dialog as modal and destroy it when a button is pressed. */

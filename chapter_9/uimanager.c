@@ -74,8 +74,8 @@ int main (int argc,
                               gtk_ui_manager_get_accel_group (uimanager));
   
   vbox = gtk_vbox_new (FALSE, 0);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), menubar);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), toolbar);
+  gtk_box_pack_start (GTK_BOX (vbox), menubar, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), toolbar, TRUE, TRUE, 0);
 
   gtk_container_add (GTK_CONTAINER (window), vbox);
   gtk_widget_show_all (window);

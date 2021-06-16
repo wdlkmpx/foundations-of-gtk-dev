@@ -1,6 +1,10 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#if GTK_MAJOR_VERSION == 3
+#include <gdk/gdkkeysyms-compat.h>
+#endif
+
 enum 
 {
   ACTION = 0,

@@ -27,7 +27,7 @@ int main (int argc,
   for (i = 0; i < NUM_NAMES; i++)
   {
     GtkWidget *button = gtk_button_new_with_label (names[i]);
-    gtk_box_pack_start_defaults (GTK_BOX (vbox), button);
+    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
     
     g_signal_connect_swapped (G_OBJECT (button), "clicked",
                               G_CALLBACK (gtk_widget_destroy),

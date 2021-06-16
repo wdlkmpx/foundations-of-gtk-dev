@@ -56,12 +56,12 @@ int main (int argc,
   underline = gtk_button_new_from_stock (GTK_STOCK_UNDERLINE);
   strike = gtk_button_new_from_stock (GTK_STOCK_STRIKETHROUGH);
   clear = gtk_button_new_from_stock (GTK_STOCK_CLEAR);
-  scale = gtk_combo_box_new_text();
+  scale = gtk_combo_box_text_new();
 
   /* Add choices to the GtkComboBox widget. */
   for (i = 0; text_scales[i].str != NULL; i++) 
   {
-    gtk_combo_box_append_text (GTK_COMBO_BOX (scale), text_scales[i].str);
+     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (scale), text_scales[i].str);
     gtk_text_buffer_create_tag (buffer, text_scales[i].str, "scale", 
                                 text_scales[i].scale, NULL );
   }
@@ -88,7 +88,7 @@ int main (int argc,
                     G_CALLBACK (clear_clicked),
                     (gpointer) textview);
 
-  /* Pack the widgets into a GtkVBox, GtkHBox, and then into the window. */
+  /* Pack the widgets into a GtkBox, GtkBox, and then into the window. */
   vbox = gtk_vbox_new (TRUE, 5);
   gtk_box_pack_start (GTK_BOX (vbox), bold, FALSE, FALSE, 0);
   gtk_box_pack_start (GTK_BOX (vbox), italic, FALSE, FALSE, 0);
@@ -138,7 +138,7 @@ scale_changed (GtkComboBox *combo,
   if (gtk_combo_box_get_active (combo) == -1)
     return;
 
-  text = gtk_combo_box_get_active_text (combo);
+  text = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (combo));
   g_object_set_data (G_OBJECT (combo), "tag", (gpointer) text);
   format (GTK_WIDGET (combo), textview);
   gtk_combo_box_set_active (combo, -1);

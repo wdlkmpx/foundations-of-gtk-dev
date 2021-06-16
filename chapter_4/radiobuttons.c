@@ -29,10 +29,10 @@ int main (int argc,
                                                         "No! Click me instead!");
 
   vbox = gtk_vbox_new (FALSE, 5);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), radio1);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), radio2);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), radio3);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), radio4);
+  gtk_box_pack_start (GTK_BOX (vbox), radio1, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), radio2, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), radio3, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), radio4, TRUE, TRUE, 0);
 
   gtk_container_add (GTK_CONTAINER (window), vbox);
   gtk_widget_show_all (window);

@@ -40,9 +40,9 @@ int main (int argc,
   gtk_container_add (GTK_CONTAINER (scrolled_win), w->textview);
 
   hbox = gtk_hbox_new (FALSE, 5);
-  gtk_box_pack_start_defaults (GTK_BOX (hbox), w->entry);
-  gtk_box_pack_start_defaults (GTK_BOX (hbox), insert);
-  gtk_box_pack_start_defaults (GTK_BOX (hbox), retrieve);
+  gtk_box_pack_start (GTK_BOX (hbox), w->entry, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), insert, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), retrieve, TRUE, TRUE, 0);
 
   vbox = gtk_vbox_new (FALSE, 5);
   gtk_box_pack_start (GTK_BOX (vbox), scrolled_win, TRUE, TRUE, 0);

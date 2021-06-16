@@ -43,7 +43,7 @@ int main (int argc,
   }
 
   /* Set application data that will be displayed in the main dialog. */
-  gtk_about_dialog_set_name (GTK_ABOUT_DIALOG (dialog), "GtkAboutDialog");
+  gtk_about_dialog_set_program_name (GTK_ABOUT_DIALOG (dialog), "GtkAboutDialog");
   gtk_about_dialog_set_version (GTK_ABOUT_DIALOG (dialog), "1.0");
   gtk_about_dialog_set_copyright (GTK_ABOUT_DIALOG (dialog), 
                                   "(C) 2007 Andrew Krause");

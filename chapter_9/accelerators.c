@@ -1,6 +1,10 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#if GTK_MAJOR_VERSION == 3
+#include <gdk/gdkkeysyms-compat.h>
+#endif
+
 static void create_popup_menu (GtkWidget*, GtkWidget*, GtkWidget*);
 static void pulse_activated (GtkMenuItem*, GtkProgressBar*);
 static void clear_activated (GtkMenuItem*, GtkProgressBar*);

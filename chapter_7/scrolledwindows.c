@@ -57,10 +57,10 @@ int main (int argc,
   gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (swin), table1);
   gtk_container_add (GTK_CONTAINER (viewport), table2);
   
-  /* Pack the widgets into a GtkVBox and then into the window. */
+  /* Pack the widgets into a GtkBox and then into the window. */
   vbox = gtk_vbox_new (TRUE, 5);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), viewport);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), swin);
+  gtk_box_pack_start (GTK_BOX (vbox), viewport, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), swin, TRUE, TRUE, 0);
   
   gtk_container_add (GTK_CONTAINER (window), vbox);
   gtk_widget_show_all (window);

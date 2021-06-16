@@ -3,7 +3,7 @@
 int main (int argc, 
           char *argv[])
 {
-  GtkWidget *dialog, *table, *user, *real, *home, *host;
+  GtkWidget *dialog, *main_vbox, *table, *user, *real, *home, *host;
   GtkWidget *lbl1, *lbl2, *lbl3, *lbl4;
   gint result;
 
@@ -14,6 +14,7 @@ int main (int argc,
                                         GTK_STOCK_OK, GTK_RESPONSE_OK,
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                                         NULL);
+  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
@@ -48,7 +49,7 @@ int main (int argc,
   gtk_table_set_col_spacings (GTK_TABLE (table), 5);
   gtk_container_set_border_width (GTK_CONTAINER (table), 5);
    
-  gtk_box_pack_start_defaults (GTK_BOX (GTK_DIALOG (dialog)->vbox), table);
+  gtk_box_pack_start (GTK_BOX (main_vbox), table, TRUE, TRUE, 0);
   gtk_widget_show_all (dialog);
   
   /* Run the dialog and output the data if the user presses the OK button. */

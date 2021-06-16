@@ -136,7 +136,7 @@ static void
 add_product (GtkButton *add,
              GtkTreeView *treeview)
 {
-  GtkWidget *dialog, *table, *combobox, *entry, *spin, *check;
+  GtkWidget *dialog, * main_vbox, *table, *combobox, *entry, *spin, *check;
   GtkTreeIter iter, child;
   GtkTreePath *path;
   GtkTreeModel *model;
@@ -151,9 +151,9 @@ add_product (GtkButton *add,
                                         GTK_STOCK_ADD, GTK_RESPONSE_OK,
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                                         NULL);
-
+  main_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   /* Create widgets that will be packed into the dialog. */
-  combobox = gtk_combo_box_new_text ();
+  combobox = gtk_combo_box_text_new ();
   entry = gtk_entry_new ();
   spin = gtk_spin_button_new_with_range (0, 100, 1);
   check = gtk_check_button_new_with_mnemonic ("_Buy the Product");
@@ -163,7 +163,7 @@ add_product (GtkButton *add,
   while (list[i].product != NULL)
   {
     if (list[i].product_type == PRODUCT_CATEGORY)
-      gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), list[i].product);
+       gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combobox), list[i].product);
     i++;
   }
   
@@ -188,7 +188,7 @@ add_product (GtkButton *add,
   gtk_table_attach (GTK_TABLE (table), check, 1, 2, 3, 4, GTK_EXPAND | GTK_FILL, 
                     GTK_SHRINK | GTK_FILL, 0, 0);
   
-  gtk_box_pack_start_defaults (GTK_BOX (GTK_DIALOG (dialog)->vbox), table);
+  gtk_box_pack_start (GTK_BOX (main_vbox), table, TRUE, TRUE, 0);
   gtk_widget_show_all (dialog);
 
   /* If the user presses OK, verify the entries and add the product. */
@@ -196,7 +196,7 @@ add_product (GtkButton *add,
   {
     quantity = (gint) gtk_spin_button_get_value (GTK_SPIN_BUTTON (spin));
     product = gtk_entry_get_text (GTK_ENTRY (entry));
-    category = gtk_combo_box_get_active_text (GTK_COMBO_BOX (combobox));
+    category = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (combobox));
     buy = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
     
     if (g_ascii_strcasecmp (product, "") == 0 || category == NULL)

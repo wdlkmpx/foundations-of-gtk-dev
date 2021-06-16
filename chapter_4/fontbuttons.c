@@ -32,8 +32,8 @@ int main (int argc,
                     (gpointer) label);
 
   vbox= gtk_vbox_new (FALSE, 5);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), button);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), label);
+  gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
 
   gtk_container_add (GTK_CONTAINER (window), vbox);
   gtk_widget_show_all (window);

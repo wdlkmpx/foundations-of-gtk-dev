@@ -41,8 +41,8 @@ int main (int argc,
                     (gpointer) window);
   
   hbox = gtk_hbox_new (TRUE, 10);
-  gtk_box_pack_start_defaults (GTK_BOX (hbox), modal);
-  gtk_box_pack_start_defaults (GTK_BOX (hbox), nonmodal);
+  gtk_box_pack_start (GTK_BOX (hbox), modal, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), nonmodal, TRUE, TRUE, 0);
 
   gtk_container_add (GTK_CONTAINER (window), hbox);
   gtk_widget_show_all (window);
@@ -84,8 +84,7 @@ run_color_selection_dialog (GtkButton *button,
 
   dialog = gtk_color_selection_dialog_new (title);
   gtk_window_set_modal (GTK_WINDOW (dialog), domodal);
-
-  colorsel = GTK_COLOR_SELECTION_DIALOG (dialog)->colorsel;
+  colorsel = gtk_color_selection_dialog_get_color_selection (GTK_COLOR_SELECTION_DIALOG (dialog));
   gtk_color_selection_set_has_opacity_control (GTK_COLOR_SELECTION (colorsel), TRUE);
 
   gtk_color_selection_set_current_color (GTK_COLOR_SELECTION (colorsel), 
@@ -117,7 +116,7 @@ dialog_response (GtkDialog *dialog,
     break;
 
   case GTK_RESPONSE_OK:
-    colorsel = GTK_COLOR_SELECTION_DIALOG (dialog)->colorsel;
+    colorsel = gtk_color_selection_dialog_get_color_selection (GTK_COLOR_SELECTION_DIALOG (dialog));
     alpha = gtk_color_selection_get_current_alpha (GTK_COLOR_SELECTION (colorsel));
     gtk_color_selection_get_current_color (GTK_COLOR_SELECTION (colorsel), &color);
     

@@ -23,8 +23,8 @@ int main (int argc,
   create_toolbar (toolbar, entry);
   
   vbox = gtk_vbox_new (FALSE, 5);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), toolbar);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), entry);
+  gtk_box_pack_start (GTK_BOX (vbox), toolbar, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), entry, TRUE, TRUE, 0);
   
   gtk_container_add (GTK_CONTAINER (window), vbox);
   gtk_widget_show_all (window);

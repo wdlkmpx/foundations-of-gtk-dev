@@ -33,7 +33,7 @@ int main (int argc,
 static gboolean 
 pulse_progress (GtkProgressBar *progress)
 {
-  static gint count = 0;
+  static gint i = 0;
 
   gtk_progress_bar_pulse (progress);
   i++;

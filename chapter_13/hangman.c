@@ -34,7 +34,7 @@ int main (int argc,
     if (words[word][i] == ' ')
       content[i] = ' ';
   
-  GTK_WIDGET_SET_FLAGS (area, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus (area, TRUE);
   g_signal_connect (G_OBJECT (area), "expose_event",  
                     G_CALLBACK (draw_area), NULL);
   

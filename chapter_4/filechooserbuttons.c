@@ -56,9 +56,9 @@ int main (int argc,
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (chooser2), filter2);
 
   vbox = gtk_vbox_new (FALSE, 5);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), chooser1);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), chooser2);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), label);
+  gtk_box_pack_start (GTK_BOX (vbox), chooser1, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), chooser2, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
 
   gtk_container_add (GTK_CONTAINER (window), vbox);
   gtk_widget_show_all (window);

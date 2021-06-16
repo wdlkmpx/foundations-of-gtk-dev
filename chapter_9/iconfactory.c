@@ -1,6 +1,7 @@
 #include <gtk/gtk.h>
+#include <unistd.h>
 
-#define ICON_LOCATION "/media/usbdisk/book/examples/chapter_9/"
+#define ICON_LOCATION "icons/"
 
 typedef struct
 {
@@ -27,6 +28,9 @@ int main (int argc,
   GtkWidget *window, *toolbar;
   GtkIconFactory *factory;
   gint i = 0;
+  char curdir[256];
+  getcwd (curdir, sizeof (curdir));
+  char * fullpath;
 
   gtk_init (&argc, &argv);
 
@@ -44,8 +48,10 @@ int main (int argc,
   while (list[i].location != NULL)
   {
     GtkToolItem *item;
-    
-    add_stock_icon (factory, list[i].location, list[i].stock_id);
+
+    fullpath = g_strconcat (curdir, "/", list[i].location, NULL);
+    add_stock_icon (factory, fullpath, list[i].stock_id);
+    g_free (fullpath);
     item = gtk_tool_button_new_from_stock (list[i].stock_id);
     gtk_tool_button_set_label (GTK_TOOL_BUTTON (item), list[i].label);
     gtk_tool_button_set_use_underline (GTK_TOOL_BUTTON (item), TRUE);

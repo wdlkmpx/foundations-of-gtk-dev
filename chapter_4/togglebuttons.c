@@ -28,8 +28,8 @@ int main (int argc,
                     G_CALLBACK (button_toggled),
                     (gpointer) toggle1);
   
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), toggle1);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), toggle2);
+  gtk_box_pack_start (GTK_BOX (vbox), toggle1, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), toggle2, TRUE, TRUE, 0);
   
   gtk_container_add (GTK_CONTAINER (window), vbox);
   gtk_widget_show_all (window);

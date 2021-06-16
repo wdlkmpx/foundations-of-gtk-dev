@@ -27,12 +27,12 @@ int main (int argc,
   gtk_entry_set_invisible_char (GTK_ENTRY (pass), '*');
 
   hbox = gtk_hbox_new (FALSE, 5);
-  gtk_box_pack_start_defaults (GTK_BOX (hbox), label);
-  gtk_box_pack_start_defaults (GTK_BOX (hbox), pass);
+  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), pass, TRUE, TRUE, 0);
 
   vbox = gtk_vbox_new (FALSE, 5);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), question);
-  gtk_box_pack_start_defaults (GTK_BOX (vbox), hbox);
+  gtk_box_pack_start (GTK_BOX (vbox), question, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 
   gtk_container_add (GTK_CONTAINER (window), vbox);
   gtk_widget_show_all (window);

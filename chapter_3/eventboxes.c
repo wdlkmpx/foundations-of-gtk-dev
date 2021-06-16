@@ -34,7 +34,7 @@ int main (int argc,
    * cursor that will be displayed when the mouse is over the event box. */
   gtk_widget_set_events (eventbox, GDK_BUTTON_PRESS_MASK);
   gtk_widget_realize (eventbox);
-  gdk_window_set_cursor (eventbox->window, gdk_cursor_new (GDK_HAND1));
+  gdk_window_set_cursor (gtk_widget_get_window (eventbox), gdk_cursor_new (GDK_HAND1));
   gtk_widget_show_all (window);
   
   gtk_main ();
